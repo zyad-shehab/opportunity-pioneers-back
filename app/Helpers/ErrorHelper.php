@@ -19,7 +19,7 @@ class ErrorHelper
         } else if ($th instanceof ModelNotFoundException) {
             $error_message = 'notFound';
         }
-        return redirect()->back()->withErrors([
+        return response()->json([
             'text' => $error_message,
             'type' => 'error',
             'root' => 'system',
