@@ -1,4 +1,4 @@
-FROM php:8.4-fpm-alpine3.20
+FROM php:8.3-fpm-alpine3.20
 
 # Installer les dépendances nécessaires
 RUN apk add --no-cache bash curl git unzip icu-dev libzip-dev oniguruma-dev \
