@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Récupérer le nom de la branche actuelle
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Définir la branche protégée
+protected_branch="main"
+
+if [ "$current_branch" = "$protected_branch" ]; then
+    echo "Erreur : Vous ne pouvez pas commiter directement sur la branche '$protected_branch'."
+    echo "Veuillez créer une branche et y effectuer vos commits."
+    exit 1
+fi
