@@ -28,8 +28,8 @@ class sendVerificationCodeController extends Controller
         $expiryTime = env('CODE_VERIFICATION_DELAY', 10);
         
         $user->update([
-            'verification_code' => $verification_code,
-            'verification_code_expiry' => now()->addMinutes($expiryTime),
+            'email_verified_code' => $verification_code,
+            'email_verified_code_expiry' => now()->addMinutes($expiryTime),
         ]);
 
         Mail::to($request->email)->send(new VerificationCodeMail($verification_code));
