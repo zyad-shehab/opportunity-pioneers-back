@@ -32,7 +32,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::prefix('job-seeker')->group(function () {
     Route::apiResource('roles', RoleController::class)
         ->only(['index', 'store', 'destroy']);
