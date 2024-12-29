@@ -13,22 +13,20 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles= Role::all();
+        $roles = Role::all();
 
-        return response()->json(['roles'=>RoleResource::collection($roles)]);
+        return response()->json(['roles' => RoleResource::collection($roles)]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'role'=>'required|min:5|max:255|unique:roles,role'
+            'role' => 'required|min:5|max:255|unique:roles,role'
         ]);
 
-        $role= Role::create(request()->all());
+        $role = Role::create(request()->all());
 
-        return response()->json(['role'=> new RoleResource($role)]);
-
-
+        return response()->json(['role' => new RoleResource($role)]);
     }
 
     public function destroy(Role $role)
