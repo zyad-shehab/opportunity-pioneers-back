@@ -24,24 +24,29 @@ class sendVerificationCodeController extends Controller
             ], 404);
         }
         // create random code
-        $verification_code = rand(10000, 99999);
+        $verificationCode = rand(10000, 99999);
         $expiryTime = env('CODE_VERIFICATION_DELAY', 10);
-        
+
         $user->update([
-            'email_verified_code' => $verification_code,
+            'email_verified_code' => $verificationCode,
             'email_verified_code_expiry' => now()->addMinutes($expiryTime),
         ]);
 
-        Mail::to($request->email)->send(new VerificationCodeMail($verification_code));
-
+        try {
+            Mail::to($request->email)->send(new VerificationCodeMail($verificationCode));
+            $mailStatus = 'Success';
+        } catch (\Exception $e) {
+            // In case of an error while sending the email
+            $mailStatus = 'Failed';
+        }
         return response()->json([
-            'message' => 'Verification code sent successfully.',
+            'message' => $mailStatus === 'Success' ? 'Verification code sent successfully.' : 'Verification code sent, but email could not be delivered.',
             'data' => [
                 'email' => $user->email,
                 'type' => $user->type,
-                'verification_code' => $verification_code,
-                'verification_code_expiry' => $user->verification_code_expiry, 
-                ], 
+                'verification_code' => $verificationCode,
+                'verification_code_expiry' => $user->verification_code_expiry,
+            ],
         ], 200);
     }
 }
