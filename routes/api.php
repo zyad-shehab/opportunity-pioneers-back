@@ -3,7 +3,7 @@
 use App\Http\Controllers\JobPreferenceController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\sendVerificationCodeController;
+use App\Http\Controllers\SendVerificationCodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
