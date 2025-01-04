@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -19,8 +19,16 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'phone',
+        'bio_ar',
+        'bio_en',
+        'profile_picture',
+        'type',
+        'status',
         'password',
+        'country_id',
     ];
 
     /**
@@ -31,6 +39,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_code',
+        'phone_verified_code',
     ];
 
     /**
@@ -40,6 +50,21 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    /**
+     * Get the country that owns the user.
+     */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+
+
+
+
 }
