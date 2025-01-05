@@ -23,9 +23,9 @@ class StoreEmployerRequest extends FormRequest
     {
         return [
             'company_name' => 'required|max:255|min:8|unique:employers,company_name',
-            'description' => 'required',
+            'description' => 'required|min:50',
             'location' => 'required|max:255',
-            'found_at' => 'required|max:255',
+            'found_at' => 'required|integer',
             'company_size' => 'required|max:255',
             'about' => 'required',
             'website' => 'nullable|url|max:255',

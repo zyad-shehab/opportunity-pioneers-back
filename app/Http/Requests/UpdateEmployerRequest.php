@@ -23,9 +23,9 @@ class UpdateEmployerRequest extends FormRequest
     {
         return [
             'company_name' => 'sometimes|required|max:255|min:8|unique:employers,company_name',
-            'description' => 'sometimes|required',
+            'description' => 'sometimes|required|min:50',
             'location' => 'sometimes|required|max:255',
-            'found_at' => 'sometimes|required|max:255',
+            'found_at' => 'sometimes|required|integer',
             'company_size' => 'sometimes|required|max:255',
             'about' => 'sometimes|required',
             'website' => 'sometimes|nullable|url|max:255',
