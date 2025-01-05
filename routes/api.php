@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobPreferenceController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('job-seeker')->group(function () {
     Route::apiResource('roles', RoleController::class)
         ->only(['index', 'store', 'destroy']);
+    Route::post('/job-preferences', [JobPreferenceController::class, 'store']);
+    Route::put('/job-preferences/{jobPreference}', [JobPreferenceController::class, 'update']);
 });
