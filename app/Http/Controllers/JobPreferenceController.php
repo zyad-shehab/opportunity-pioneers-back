@@ -10,17 +10,20 @@ class JobPreferenceController extends Controller
 {
     public function store(Request $request)
     {
-        //check at least one of filled
-        if (!$request->filled('fulltime') && !$request->filled('parttime')) {
-            return response()->json(['error' => 'Either fulltime or parttime must be provided.'], 422);
+        $validator = Validator::make($request->all(), [
+            'isfulltime' => 'boolean',
+            'isparttime' => 'boolean',
+            'role_id' => 'required|integer|exists:roles,id',
+        ])->after(function ($validator) use ($request) {
+            if (!$request->filled('isfulltime') && !$request->filled('isparttime')) {
+                $validator->errors()->add('fulltime_or_parttime', 'Either fulltime or parttime must be provided.');
+            }
+        });
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
 
-        //Role_id must be exist
-        if (!$request->has('role_id')) {
-            return response()->json(['error' => 'Role ID is required.'], 422);
-        }
-
-        //if conditions is true
         $jobPreference = JobPreference::create($request->all());
 
         return response()->json($jobPreference, 201);
@@ -29,26 +32,24 @@ class JobPreferenceController extends Controller
 
     public function update(Request $request, $id)
     {
-        // check at least one filled
-        if (!$request->filled('fulltime') && !$request->filled('parttime')) {
-            return response()->json(['error' => 'Either fulltime or parttime must be provided.'], 422);
+        $validator = Validator::make($request->all(), [
+            'isfulltime' => 'boolean',
+            'isparttime' => 'boolean',
+            'role_id' => 'required|integer|exists:roles,id',
+        ])->after(function ($validator) use ($request) {
+            if (!$request->filled('isfulltime') && !$request->filled('isparttime')) {
+                $validator->errors()->add('fulltime_or_parttime', 'Either fulltime or parttime must be provided.');
+            }
+        });
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
 
-        //Role_id must be exist
-        if (!$request->has('role_id')) {
-            return response()->json(['error' => 'Role ID is required.'], 422);
+        $jobPreference = JobPreference::findOrFail($id);
 
+        $jobPreference->update($request->only(['isfulltime', 'isparttime', 'role_id']));
 
-            $jobPreference = JobPreference::findOrFail($id);
-
-            //update date if the conditions is true
-            $jobPreference->fulltime = $request->fulltime;
-            $jobPreference->parttime = $request->parttime;
-            $jobPreference->role_id = $request->role_id;
-
-            $jobPreference->save();
-
-            return response()->json($jobPreference, 200);
-        }
+        return response()->json($jobPreference, 200);
     }
 }

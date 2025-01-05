@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('job_preferences', function (Blueprint $table) {
             $table->id();
-            $table->boolean('fulltime')->default(false);
-            $table->boolean('parttime')->default(false);
+            $table->boolean('isfulltime')->default(false);
+            $table->boolean('isparttime')->default(false);
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->timestamps();
         });

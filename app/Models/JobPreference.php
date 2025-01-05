@@ -9,7 +9,7 @@ class JobPreference extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['fulltime', 'parttime', 'role'];
+    protected $fillable = ['isfulltime', 'isparttime', 'role_id'];
 
     public function role()
     {
