@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -21,20 +22,24 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-            return [
+        return [
             'full_name' => 'required|string|min:3|max:255',
-            'country' => 'exists:countries,name_en', // Assumes country is selected by name in English
             'email' => [
-            'required',
-            'email',
-            Rule::unique('users')->where(function ($query) {
-                return $query->where('type', $this->type);
-            }),
-        ],
+                'required',
+                'email',
+                Rule::unique('users')->where(function ($query) {
+                    return $query->where('type', $this->input('type'));
+                }),
+            ],
             'phone' => 'required|unique:users,phone',
             'password' => 'required|string|min:8',
             'type' => 'required|string|in:job-seeker,employer,supporting-initiative',
-            ];
+            'country' => [
+                Rule::requiredIf(function () {
+                    return in_array($this->input('type'), ['employer', 'supporting-initiative']);
+                }),
+                'exists:countries,name_en',
+            ],
+        ];
     }
 }
-
