@@ -22,7 +22,7 @@ class StoreEmployerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_name' => 'required|max:255|min:8|unique:employers,company_name',
+            'company_name' => 'required|max:255|unique:employers,company_name',
             'description' => 'required|min:50',
             'location' => 'required|max:255',
             'found_at' => 'required|integer',

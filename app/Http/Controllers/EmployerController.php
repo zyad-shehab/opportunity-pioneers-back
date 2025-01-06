@@ -14,9 +14,18 @@ class EmployerController extends Controller
     {
         $validated = $request->validated();
         $employer = Employer::create($validated);
-        return response()->json([
-            'message' => "Employer created successfully.",
-        ], 201);
+        return new EmployerResource([
+            'id' => $employer->id,
+            'company_name' => $employer->company_name,
+            'location' => $employer->location,
+            'found_at' => $employer->found_at,
+            'company_size' => $employer->company_size,
+            'about' => $employer->about,
+            'website' => $employer->website,
+            'linkedin' => $employer->linkedin,
+            'created_at' => $employer->created_at,
+            'updated_at' => $employer->updated_at,
+        ]);
     }
     public function update(UpdateEmployerRequest $request, $id)
     {
