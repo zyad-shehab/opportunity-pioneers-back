@@ -1,8 +1,4 @@
 vendor
 .idea
-<<<<<<< HEAD
 .phpunit.result.cache
 .env.example
-=======
-.env
->>>>>>> 34c0db2 (Add file .env.example)
