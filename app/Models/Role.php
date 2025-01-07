@@ -10,4 +10,9 @@ class Role extends Model
     use HasFactory;
 
     protected $fillable = ['role'];
+
+    public function jobPreferences()
+    {
+        return $this->hasMany(JobPreference::class);
+    }
 }
