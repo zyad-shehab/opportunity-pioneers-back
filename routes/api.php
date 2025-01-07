@@ -3,6 +3,7 @@
 use App\Http\Controllers\JobPreferenceController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\sendVerificationCodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -39,3 +40,5 @@ Route::prefix('job-seeker')->group(function () {
 
 Route::post('/job-preferences', [JobPreferenceController::class, 'store']);
 Route::put('/job-preferences/{jobPreference}', [JobPreferenceController::class, 'update']);
+
+Route::post('/send-verification-code', [sendVerificationCodeController::class, 'sendVerificationCode']);
