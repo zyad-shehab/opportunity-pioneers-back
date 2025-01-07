@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::apiResource('employer/informations', EmployerController::class)->only([
     'store',
     'update',
     'show',
 ]);
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+
+Route::prefix('job-seeker')->group(function () {
+    Route::apiResource('roles', RoleController::class)
+        ->only(['index', 'store', 'destroy']);
+});
