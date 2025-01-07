@@ -29,6 +29,8 @@ class User extends Authenticatable
         'status',
         'password',
         'country_id',
+        'email_verified_code',
+        'email_verified_code_expiry',
     ];
 
     /**
