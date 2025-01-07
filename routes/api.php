@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,12 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+
+Route::apiResource('employer/informations', EmployerController::class)->only([
+    'store',
+    'update',
+    'show',
+]);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
