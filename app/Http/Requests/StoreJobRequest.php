@@ -28,8 +28,8 @@ class StoreJobRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-       // Convert salary to separate fields
         $this->merge([
+            'skills' => json_encode($this->skills), 
             'salary_monthly' => $this->salary['monthly'],
             'salary_hourly' => $this->salary['hourly'],
         ]);
