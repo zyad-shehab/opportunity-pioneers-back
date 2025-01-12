@@ -8,39 +8,34 @@ use App\Http\Requests\StoreJobRequest;
 
 class JobController extends Controller
 {
-    // عرض جميع الوظائف
+  //  View All Jobs
     public function index()
     {
         $jobs = Job::all();
         return response()->json($jobs);
     }
 
-    // إنشاء وظيفة جديدة
+    // create new job
     public function store(StoreJobRequest $request)
     {
+       // Create the function using the function in the Request
+        $job = $request->saveJob();
 
-        $validated = $request->validated();
-        $validated['salary_monthly'] = $validated['salary']['monthly'];
-        $validated['salary_hourly'] = $validated['salary']['hourly'];
-        unset($validated['salary']);
-        $validated['skills'] = json_encode($validated['skills']);
-
-        //dd($validated);
-        $job = Job::create($validated);
+       // Returns the generated function as JSON
         return response()->json($job, 201);
     }
 
-
-    // تحديث وظيفة محددة
     public function update(StoreJobRequest $request, $id)
     {
-        $job = Job::findOrFail($id);
-        $validated = $request->validated();
-        $job->update($validated);
-        return response()->json($job);
+        //Update the function using the function in the Request
+        $updatedJob = $request->saveJob($id);
+
+     //   Returns the updated function as JSON
+        return response()->json($updatedJob);
     }
 
-    // حذف وظيفة محددة
+
+//delete job
     public function destroy($id)
     {
         $job = Job::findOrFail($id);
