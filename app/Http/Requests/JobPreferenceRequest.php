@@ -32,7 +32,7 @@ class JobPreferenceRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if (!$this->filled('is_fulltime') && !$this->filled('is_parttime')) {
+            if (!$this->filled('is_fulltime') === false && !$this->filled('is_parttime' === false)) {
                 $validator->errors()->add('fulltime_or_parttime', $this->message('fulltime_or_parttime')); 
             }
         });
