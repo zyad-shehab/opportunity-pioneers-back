@@ -4,15 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\VerifyCodeRequest;
 use App\Models\Country;
 use App\Models\User;
 use App\Traits\ApiResponses;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\SendVerificationCodeController;
+use App\Mail\SendVerificationCode;
+use Exception;
 
 class AuthController extends Controller
 {
     use ApiResponses;
+
+    public function __construct(private SendVerificationCode $sendVerificationCode) {}
+
+    public function verifyCode(VerifyCodeRequest $request)
+    {
+        // Retrieve the user by email and type
+        $user = User::where('email', $request->email)
+            ->where('type', $request->type)
+            ->first();
+
+        if (!$user) {
+            return $this->error('User not found.', 404);
+        }
+        // Validate the verification code and check if it is still valid
+        if (
+            $user->email_verified_code !== $request->code ||
+            now()->greaterThan($user->email_verified_code_expiry)
+        ) {
+            return $this->error('Invalid or expired verification code.', 400);
+        }
+        // Update user status to active
+        $user->update([
+            'status' => User::ACTIVE,
+
+        ]);
+        return $this->success('User verified successfully.', [
+            'email' => $user->email,
+            'type' => $user->type,
+        ], 200);
+    }
 
     /**
      * User login
@@ -30,7 +62,7 @@ class AuthController extends Controller
         }
 
         // Check if the user is active
-        if ($user->status !== 'active') {
+        if ($user->status !== User::ACTIVE) {
             return $this->error('Your account is not activated. Please verify your email.', 403);
         }
 
@@ -59,7 +91,7 @@ class AuthController extends Controller
             'phone' => $validated['phone'],
             'password' => Hash::make($validated['password']),
             'type' => $validated['type'],
-            'status' => 'inactive', // Initial status
+            'status' => User::INACTIVE, // Initial status
             'username' => $validated['type'] . '_' . $validated['email'],
         ];
         if (in_array($validated['type'], ['employer', 'supporting-initiative'])) {
@@ -69,16 +101,17 @@ class AuthController extends Controller
         // Create the user
         $user = User::create($userArray);
 
-        // Send verification code
-        $sendVerificationResponse = app(SendVerificationCodeController::class)->sendVerificationCode(new \Illuminate\Http\Request([
-            'email' => $user->email,
-            'type' => $user->type,
-        ]));
-        $emailSent = $sendVerificationResponse->getStatusCode() === 200;
-
-        return $this->success('User registered successfully.', [
-            'user' => $user,
-            'email_status' => $emailSent ? 'Verification email sent successfully.' : 'Failed to send verification email.',
-        ], 201);
+        try {
+            // Send verification code
+            $this->sendVerificationCode->sendEmail($user);
+            // Return success response
+            return $this->success('User registered successfully.', [
+                'user' => $user,
+            ], 201);
+        } catch (Exception $exception) {
+            // Roll back user creation if email sending fails
+            $user->delete();
+            return $this->error('Registration failed. Please try again later.', 403);
+        }
     }
 }

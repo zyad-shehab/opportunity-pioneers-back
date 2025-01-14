@@ -40,4 +40,4 @@ Route::prefix('job-seeker')->group(function () {
 Route::post('/job-preferences', [JobPreferenceController::class, 'store']);
 Route::put('/job-preferences/{jobPreference}', [JobPreferenceController::class, 'update']);
 
-Route::post('/send-verification-code', [SendVerificationCodeController::class, 'sendVerificationCode']);
+Route::post('/verify-code', [AuthController::class, 'verifyCode']);

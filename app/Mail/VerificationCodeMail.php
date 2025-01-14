@@ -7,10 +7,7 @@ use Illuminate\Mail\Mailable;
 class VerificationCodeMail extends Mailable
 {
 
-    public function __construct(public string $code)
-    {
-        $this->code = $code;
-    }
+    public function __construct(public string $code) {}
 
     public function build()
     {

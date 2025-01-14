@@ -12,6 +12,10 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'users';
 
+    public const ACTIVE = "active";
+    public const INACTIVE = "inactive";
+    public const SUSPENDED = "suspended";
+
     /**
      * The attributes that are mass assignable.
      *
