@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/jobs',[JobController::class,'store']);
 Route::apiResource('/jobs', JobController::class);
+

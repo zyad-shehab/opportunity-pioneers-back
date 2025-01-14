@@ -6,20 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Job extends Model
+return new class extends Migration
 {
-    protected $fillable = [
-        'title',
-        'skills',
-        'salary_monthly',
-        'salary_hourly',
-        'endDate',
-        'typeOfWork',
-        'workTime',
-        'description',
-    ];
-
-    protected $casts = [
-        'skills' => 'json',
-    ];
-}
+    public function up()
+    {
+        Schema::create('jobs', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->json('skills');
+            $table->json('salary');
+            $table->date('endDate')->nullable();
+            $table->string('typeOfWork');
+            $table->string('workTime');
+            $table->text('description');
+            $table->timestamps();
+        });
+    }
+    public function down(): void
+    {
+        Schema::dropIfExists('jobs');
+    }
+};
