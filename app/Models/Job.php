@@ -19,4 +19,9 @@ class Job extends Model
         'work_time',
         'description',
     ];
+ 
+
 }
+
+
+

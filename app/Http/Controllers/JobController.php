@@ -1,45 +1,41 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Job;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreJobRequest;
+use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
-  //  View All Jobs
     public function index()
     {
-        $jobs = Job::all();
-        return response()->json($jobs);
+        return Job::all();
     }
 
-    // create new job
     public function store(StoreJobRequest $request)
     {
-       // Create the function using the function in the Request
-        $job = $request->saveJob();
-
-       // Returns the generated function as JSON
+        $job = Job::create($request->validated());
         return response()->json($job, 201);
+        $validated['salary_monthly'] = $validated['salary']['monthly'];
+        $validated['hourly'] = $validated['salary']['hourly'];
+
     }
 
-    public function update(StoreJobRequest $request, $id)
+    public function show($id)
     {
-        //Update the function using the function in the Request
-        $updatedJob = $request->saveJob($id);
-
-     //   Returns the updated function as JSON
-        return response()->json($updatedJob);
+        return Job::findOrFail($id);
     }
 
-
-//delete job
-    public function destroy($id)
+    public function update(Request $request, $id)
     {
         $job = Job::findOrFail($id);
-        $job->delete();
+        $job->update($request->all());
+        return response()->json($job, 200);
+    }
+
+    public function destroy($id)
+    {
+        Job::destroy($id);
         return response()->json(null, 204);
     }
 }
