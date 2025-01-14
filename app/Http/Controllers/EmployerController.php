@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployerRequest;
 use App\Http\Requests\UpdateEmployerRequest;
 use App\Http\Resources\EmployerResource;
 use App\Models\Employer;
-use Illuminate\Http\Request;
 
 class EmployerController extends Controller
 {
@@ -14,6 +15,7 @@ class EmployerController extends Controller
     {
         $validated = $request->validated();
         $employer = Employer::create($validated);
+
         return new EmployerResource([
             'id' => $employer->id,
             'company_name' => $employer->company_name,
@@ -32,11 +34,13 @@ class EmployerController extends Controller
         $validated = $request->validated();
         $employer = Employer::findOrFail($id);
         $employer->update($validated);
+
         return new EmployerResource($employer);
     }
     public function show($id)
     {
         $employer = Employer::findOrFail($id);
+
         return new EmployerResource($employer);
     }
 }

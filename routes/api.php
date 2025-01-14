@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\JobPreferenceController;
+declare(strict_types=1);
+
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\JobPreferenceController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------

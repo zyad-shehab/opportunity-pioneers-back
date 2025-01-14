@@ -1,11 +1,11 @@
 <?php
+
+declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('bio_ar')->nullable();
             $table->string('bio_en')->nullable();
             $table->string('profile_picture')->nullable();
-            $table->enum('type',['job-seeker','employer','supporting-initiative']);
+            $table->enum('type', ['job-seeker','employer','supporting-initiative']);
             $table->enum('status', ['active', 'inactive', 'suspended'])->default('inactive');
             $table->string('email_verified_code')->nullable();
             $table->timestamp('email_verified_code_expiry')->nullable();

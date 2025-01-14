@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\JobPreferenceRequest;
 use App\Models\JobPreference;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class JobPreferenceController extends Controller
 {
@@ -20,7 +20,7 @@ class JobPreferenceController extends Controller
 
     public function update(JobPreferenceRequest $request, $id)
     {
-        $validated = $request->validated(); 
+        $validated = $request->validated();
 
         $jobPreference = JobPreference::findOrFail($id);
         $jobPreference->update($validated);
