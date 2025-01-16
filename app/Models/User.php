@@ -16,6 +16,10 @@ class User extends Authenticatable
     use Notifiable;
     protected $table = 'users';
 
+    public const ACTIVE = "active";
+    public const INACTIVE = "inactive";
+    public const SUSPENDED = "suspended";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -33,6 +37,8 @@ class User extends Authenticatable
         'status',
         'password',
         'country_id',
+        'email_verified_code',
+        'email_verified_code_expiry',
     ];
 
     /**
