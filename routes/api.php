@@ -9,7 +9,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SendVerificationCodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\verifyCodeController;
 
+use App\Http\Controllers\JobController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,6 +35,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::apiResource('jobs', JobController::class);
 
 Route::prefix('job-seeker')->group(function () {
     Route::apiResource('roles', RoleController::class)
