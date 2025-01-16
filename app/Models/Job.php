@@ -12,15 +12,17 @@ class Job extends Model
     protected $fillable = [
         'title',
         'skills',
-        'salary_monthly',
-        'salary_hourly',
-        'end_date',
-        'type_of_work',
-        'work_time',
+        'salary',
+        'endDate',
+        'typeOfWork',
+        'workTime',
         'description',
     ];
- 
 
+    protected $casts = [
+        'skills' => 'json',
+        'salary' => 'json',
+    ];
 }
 
 

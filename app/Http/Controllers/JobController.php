@@ -14,10 +14,10 @@ class JobController extends Controller
 
     public function store(StoreJobRequest $request)
     {
-        $job = Job::create($request->validated());
+        $request = $request->validated();
+        $job = Job::create($request);
+
         return response()->json($job, 201);
-        $validated['salary_monthly'] = $validated['salary']['monthly'];
-        $validated['hourly'] = $validated['salary']['hourly'];
 
     }
 

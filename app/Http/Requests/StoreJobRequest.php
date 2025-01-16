@@ -14,8 +14,8 @@ class StoreJobRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'skills' => 'required|array',
-            'salary' => 'required|array',
+            'skills' => 'required',
+            'salary' => 'required',
             'salary.monthly' => 'required|numeric',
             'salary.hourly' => 'required|numeric',
             'endDate' => 'nullable|date',
