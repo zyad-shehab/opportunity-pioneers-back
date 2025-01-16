@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\VerifyCodeRequest;
 use App\Models\Country;
 use App\Models\User;
@@ -57,7 +59,7 @@ class AuthController extends Controller
             ->where('type', $validated['type'])
             ->first();
         // Check if the user exists and the password matches
-        if (!$user || !Hash::check($validated['password'], $user->password)) {
+        if (! $user || ! Hash::check($validated['password'], $user->password)) {
             return $this->error('Login information invalid', 401);
         }
 

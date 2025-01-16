@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\RoleResource;
@@ -21,7 +23,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'role' => 'required|min:5|max:255|unique:roles,role'
+            'role' => 'required|min:5|max:255|unique:roles,role',
         ]);
 
         $role = Role::create(request()->all());
