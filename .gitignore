@@ -1,2 +1,5 @@
 vendor
 .idea
+.phpunit.result.cache
+.env.example
+.php-cs-fixer.cache
