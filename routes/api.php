@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\JobApplyController;
 use App\Http\Controllers\JobPreferenceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SendVerificationCodeController;
@@ -23,6 +24,11 @@ use App\Http\Controllers\JobController;
 |
 */
 
+Route::controller(JobApplyController::class)->middleware('auth:sanctum')->group(function () {
+    Route::post('apply-jobs/{jobId}', 'apply')->name('apply');
+    Route::delete('apply-jobs/{jobId}', 'inapply')->name('inapply');
+    Route::get('apply-jobs', 'index')->name('applications.index');
+});
 
 Route::apiResource('employer/informations', EmployerController::class)->only([
     'store',
