@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\VerifyCodeRequest;
 use App\Models\Country;
+use App\Models\JobSeeker;
 use App\Models\User;
 use App\Traits\ApiResponses;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,9 @@ class AuthController extends Controller
 {
     use ApiResponses;
 
-    public function __construct(private SendVerificationCode $sendVerificationCode) {}
+    public function __construct(private SendVerificationCode $sendVerificationCode)
+    {
+    }
 
     public function verifyCode(VerifyCodeRequest $request)
     {
@@ -59,7 +62,7 @@ class AuthController extends Controller
             ->where('type', $validated['type'])
             ->first();
         // Check if the user exists and the password matches
-        if (! $user || ! Hash::check($validated['password'], $user->password)) {
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
             return $this->error('Login information invalid', 401);
         }
 
@@ -102,6 +105,11 @@ class AuthController extends Controller
         }
         // Create the user
         $user = User::create($userArray);
+
+        // Create job-seeker
+        if ($userArray['type'] === 'job-seeker') {
+            $user->jobSeeker()->create();
+        }
 
         try {
             // Send verification code
