@@ -48,3 +48,6 @@ Route::post('/job-preferences', [JobPreferenceController::class, 'store']);
 Route::put('/job-preferences/{jobPreference}', [JobPreferenceController::class, 'update']);
 
 Route::post('/verify-code', [AuthController::class, 'verifyCode']);
+Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
+Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'changePassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
