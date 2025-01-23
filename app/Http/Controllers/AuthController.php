@@ -173,7 +173,6 @@ class AuthController extends Controller
                 'Password reset and email sent successfully.',
                 [
                     "email" => $user->email,
-                    "token" => $token
                 ],
                 200
             );
